@@ -58,11 +58,11 @@ return [
             'prefix_indexes' => true,
             'strict' => true,
             'engine' => null,
-            'options' => extension_loaded('pdo_mysql') ? array_filter([
-                    PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
-                    // This ensures the connection is rejected if SSL fails
-                    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
-                ]) : [],
+            'options' => [
+        // Ini adalah lokasi sertifikat standar di server Vercel (AWS Linux)
+        PDO::MYSQL_ATTR_SSL_CA => '/etc/pki/tls/certs/ca-bundle.crt',
+        PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
+    ],
         ],
 
         'mariadb' => [
