@@ -7,7 +7,7 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%2316a34a'><path stroke-linecap='round' stroke-linejoin='round' stroke-width='2' d='M13 7h8m0 0v8m0-8l-8 8-4-4-6 6' /></svg>">
+        <link rel="icon" type="image/svg+xml" href="{{ asset('logo.svg') }}">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
@@ -20,18 +20,26 @@
         <link rel="manifest" href="{{ asset('build/manifest.webmanifest') }}">
         
         <style>
-            /* Opsional: Styling sederhana untuk loading screen */
-            #app-loader {
+            /* Loader Screen */
+            #app-loader-container {
+                position: fixed;
+                inset: 0;
                 display: flex;
+                flex-direction: column;
                 justify-content: center;
                 align-items: center;
-                height: 100vh;
-                background-color: #f0fdf4; /* bg-green-100 */
+                background-color: #f0fdf4; 
+                z-index: 9999;
+                transition: opacity 0.5s ease;
             }
             .logo-icon {
-                color: #16a34a; /* text-green-600 */
-                width: 64px;
-                height: 64px;
+                width: 80px;
+                height: 80px;
+                margin-bottom: 1rem;
+            }
+            body.loaded #app-loader-container {
+                opacity: 0;
+                pointer-events: none;
             }
         </style>
     </head>
@@ -39,15 +47,22 @@
         @inertia
 
         <div id="app-loader-container">
-            </div>
+            <img src="{{ asset('logo.svg') }}" alt="Logo" class="logo-icon">
+            <div style="color: #16a34a; font-weight: 500;">Memuat aplikasi...</div>
+        </div>
 
         <script>
+            // Menghilangkan loader setelah konten muncul
+            document.addEventListener('inertia:finish', function() {
+                setTimeout(() => {
+                    document.body.classList.add('loaded');
+                }, 500);
+            });
+
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
                     navigator.serviceWorker.register("{{ asset('build/sw.js') }}").then(function(registration) {
-                        console.log('ServiceWorker registration successful with scope: ', registration.scope);
-                    }, function(err) {
-                        console.log('ServiceWorker registration failed: ', err);
+                        console.log('ServiceWorker registration successful');
                     });
                 });
             }
