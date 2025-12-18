@@ -8,18 +8,18 @@
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
         <link rel="icon" type="image/svg+xml" href="{{ asset('logo.svg') }}">
+        <link rel="apple-touch-icon" href="{{ asset('logo.svg') }}">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        
         <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
-    
-    <meta name="theme-color" content="#16a34a">
+        <meta name="theme-color" content="#16a34a">
+
         @routes
         @viteReactRefresh
         @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
         @inertiaHead
-
-        <link rel="manifest" href="{{ asset('build/manifest.webmanifest') }}">
         
         <style>
             /* Loader Screen */
@@ -32,15 +32,17 @@
                 align-items: center;
                 background-color: #f0fdf4; 
                 z-index: 9999;
-                transition: opacity 0.5s ease;
+                transition: opacity 0.5s ease, visibility 0.5s;
             }
             .logo-icon {
                 width: 80px;
                 height: 80px;
                 margin-bottom: 1rem;
             }
-            body.loaded #app-loader-container {
+            /* Class untuk menyembunyikan loader */
+            .loader-hidden {
                 opacity: 0;
+                visibility: hidden;
                 pointer-events: none;
             }
         </style>
@@ -50,22 +52,33 @@
 
         <div id="app-loader-container">
             <img src="{{ asset('logo.svg') }}" alt="Logo" class="logo-icon">
-            <div style="color: #16a34a; font-weight: 500;">Memuat aplikasi...</div>
+            <div style="color: #16a34a; font-weight: 500; font-family: 'Figtree', sans-serif;">Memuat aplikasi...</div>
         </div>
 
         <script>
-            // Menghilangkan loader setelah konten muncul
-            document.addEventListener('inertia:finish', function() {
-                setTimeout(() => {
-                    document.body.classList.add('loaded');
-                }, 500);
+            // Fungsi untuk menyembunyikan loader
+            function hideLoader() {
+                const loader = document.getElementById('app-loader-container');
+                if (loader) {
+                    loader.classList.add('loader-hidden');
+                }
+            }
+
+            // Sembunyikan loader setelah Inertia pertama kali dimuat
+            document.addEventListener('inertia:finish', hideLoader, { once: true });
+            
+            // Backup jika terjadi error pada event inertia
+            window.addEventListener('load', () => {
+                setTimeout(hideLoader, 2000); // Maksimal 2 detik loader hilang
             });
 
+            // Service Worker untuk PWA
             if ('serviceWorker' in navigator) {
                 window.addEventListener('load', function() {
-                    navigator.serviceWorker.register("{{ asset('build/sw.js') }}").then(function(registration) {
-                        console.log('ServiceWorker registration successful');
-                    });
+                    // Pastikan path sw.js benar (biasanya di root public)
+                    navigator.serviceWorker.register("{{ asset('sw.js') }}")
+                        .then(reg => console.log('SW Registered'))
+                        .catch(err => console.log('SW Failed', err));
                 });
             }
         </script>
