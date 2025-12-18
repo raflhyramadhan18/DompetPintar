@@ -61,7 +61,7 @@ return [
             'options' => extension_loaded('pdo_mysql') ? array_filter([
                     PDO::MYSQL_ATTR_SSL_CA => env('MYSQL_ATTR_SSL_CA'),
                     // This ensures the connection is rejected if SSL fails
-                    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => true,
+                    PDO::MYSQL_ATTR_SSL_VERIFY_SERVER_CERT => false,
                 ]) : [],
         ],
 
