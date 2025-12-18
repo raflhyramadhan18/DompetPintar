@@ -7,9 +7,8 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="icon" type="image/png" href="{{ asset('logo.png') }}">
-        <link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
-
+        <link rel="icon" type="image/png" href="/logo.png">
+<link rel="apple-touch-icon" href="/logo.png">
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         
@@ -49,10 +48,7 @@
     <body class="font-sans antialiased">
         @inertia
 
-        <div id="app-loader-container">
-            <img src="{{ asset('logo.svg') }}" alt="Logo" class="logo-icon">
-            <div style="color: #16a34a; font-weight: 500; font-family: 'Figtree', sans-serif;">Memuat aplikasi...</div>
-        </div>
+    
 
         <script>
             function hideLoader() {

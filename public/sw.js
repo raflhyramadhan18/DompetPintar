@@ -1,8 +1,8 @@
 const CACHE_NAME = 'app-cache-v2';
 const urlsToCache = [
   '/',
-  '/logo.png',
-  '/manifest.webmanifest'
+  'logo.png',
+  'manifest.webmanifest'
 ];
 
 // Install Service Worker
