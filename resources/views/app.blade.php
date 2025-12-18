@@ -72,12 +72,11 @@
                 setTimeout(hideLoader, 2000); // Maksimal 2 detik loader hilang
             });
 
-            // Service Worker untuk PWA
             if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
-            // Karena sw.js ada di root public, panggil langsung seperti ini
-            navigator.serviceWorker.register("{{ asset('sw.js') }}")
-                .then(reg => console.log('ServiceWorker aktif'))
+            // Arahkan ke folder build
+            navigator.serviceWorker.register("{{ asset('build/sw.js') }}", { scope: '/' })
+                .then(reg => console.log('ServiceWorker aktif di folder build'))
                 .catch(err => console.log('ServiceWorker gagal', err));
         });
     }
