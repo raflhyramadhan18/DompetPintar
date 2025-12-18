@@ -1,4 +1,4 @@
-const CACHE_NAME = 'app-cache-v2';
+const CACHE_NAME = 'app-cache-v3';
 const urlsToCache = [
   '/',
   'logo.png',
@@ -8,13 +8,14 @@ const urlsToCache = [
 // Install Service Worker
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(urlsToCache);
-      })
+    caches.open(CACHE_NAME).then(cache => {
+      // Menggunakan map agar jika satu gagal, yang lain tetap jalan
+      return Promise.allSettled(
+        urlsToCache.map(url => cache.add(url))
+      );
+    })
   );
 });
-
 // Aktivasi Service Worker
 self.addEventListener('activate', event => {
   event.waitUntil(
