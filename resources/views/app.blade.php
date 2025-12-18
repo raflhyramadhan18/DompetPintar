@@ -7,7 +7,7 @@
 
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
-        <link rel="icon" type="image/svg+xml" href="{{ asset('logo.svg') }}">
+        <link rel="icon" type="image/svg+xml" href="{{ asset('logo.png') }}">
 
         <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">        <link rel="apple-touch-icon" href="{{ asset('logo.svg') }}">
 
@@ -50,10 +50,7 @@
     <body class="font-sans antialiased">
         @inertia
 
-        <div id="app-loader-container">
-            <img src="{{ asset('logo.svg') }}" alt="Logo" class="logo-icon">
-            <div style="color: #16a34a; font-weight: 500; font-family: 'Figtree', sans-serif;">Memuat aplikasi...</div>
-        </div>
+    
 
         <script>
             // Fungsi untuk menyembunyikan loader
@@ -75,7 +72,7 @@
             if ('serviceWorker' in navigator) {
         window.addEventListener('load', function() {
             // Arahkan ke folder build
-            navigator.serviceWorker.register("{{ asset('build/sw.js') }}", { scope: '/' })
+            navigator.serviceWorker.register("{{ asset('/sw.js') }}", { scope: '/' })
                 .then(reg => console.log('ServiceWorker aktif di folder build'))
                 .catch(err => console.log('ServiceWorker gagal', err));
         });
