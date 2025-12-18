@@ -8,12 +8,12 @@
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
         <link rel="icon" type="image/svg+xml" href="{{ asset('logo.svg') }}">
-        <link rel="apple-touch-icon" href="{{ asset('logo.svg') }}">
+
+        <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">        <link rel="apple-touch-icon" href="{{ asset('logo.svg') }}">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         
-        <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
         <meta name="theme-color" content="#16a34a">
 
         @routes
@@ -74,13 +74,13 @@
 
             // Service Worker untuk PWA
             if ('serviceWorker' in navigator) {
-                window.addEventListener('load', function() {
-                    // Pastikan path sw.js benar (biasanya di root public)
-                    navigator.serviceWorker.register("{{ asset('sw.js') }}")
-                        .then(reg => console.log('SW Registered'))
-                        .catch(err => console.log('SW Failed', err));
-                });
-            }
+        window.addEventListener('load', function() {
+            // Karena sw.js ada di root public, panggil langsung seperti ini
+            navigator.serviceWorker.register("{{ asset('sw.js') }}")
+                .then(reg => console.log('ServiceWorker aktif'))
+                .catch(err => console.log('ServiceWorker gagal', err));
+        });
+    }
         </script>
     </body>
 </html>
