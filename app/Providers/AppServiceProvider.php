@@ -22,5 +22,12 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         Vite::prefetch(concurrency: 3);
+
+        // --- TAMBAHKAN BAGIAN INI ---
+        // Memaksa HTTPS saat di production (Vercel)
+        // Ini solusi utama untuk Error 419 Page Expired
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 }
