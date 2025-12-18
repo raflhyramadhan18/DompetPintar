@@ -8,12 +8,12 @@
         <title inertia>{{ config('app.name', 'Laravel') }}</title>
 
         <link rel="icon" type="image/svg+xml" href="{{ asset('logo.png') }}">
-
-        <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">        <link rel="apple-touch-icon" href="{{ asset('logo.svg') }}">
+        <link rel="apple-touch-icon" href="{{ asset('logo.png') }}">
 
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
         
+        <link rel="manifest" href="{{ asset('manifest.webmanifest') }}">
         <meta name="theme-color" content="#16a34a">
 
         @routes
@@ -39,7 +39,6 @@
                 height: 80px;
                 margin-bottom: 1rem;
             }
-            /* Class untuk menyembunyikan loader */
             .loader-hidden {
                 opacity: 0;
                 visibility: hidden;
@@ -50,10 +49,12 @@
     <body class="font-sans antialiased">
         @inertia
 
-    
+        <div id="app-loader-container">
+            <img src="{{ asset('logo.svg') }}" alt="Logo" class="logo-icon">
+            <div style="color: #16a34a; font-weight: 500; font-family: 'Figtree', sans-serif;">Memuat aplikasi...</div>
+        </div>
 
         <script>
-            // Fungsi untuk menyembunyikan loader
             function hideLoader() {
                 const loader = document.getElementById('app-loader-container');
                 if (loader) {
@@ -61,22 +62,22 @@
                 }
             }
 
-            // Sembunyikan loader setelah Inertia pertama kali dimuat
+            // Sembunyikan loader saat Inertia siap
             document.addEventListener('inertia:finish', hideLoader, { once: true });
             
-            // Backup jika terjadi error pada event inertia
             window.addEventListener('load', () => {
-                setTimeout(hideLoader, 2000); // Maksimal 2 detik loader hilang
+                setTimeout(hideLoader, 2000); 
             });
 
+            // Service Worker registration
             if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-            // Arahkan ke folder build
-            navigator.serviceWorker.register("{{ asset('/sw.js') }}", { scope: '/' })
-                .then(reg => console.log('ServiceWorker aktif di folder build'))
-                .catch(err => console.log('ServiceWorker gagal', err));
-        });
-    }
+                window.addEventListener('load', function() {
+                    // Karena sudah di public, panggil tanpa path build
+                    navigator.serviceWorker.register("{{ asset('sw.js') }}")
+                        .then(reg => console.log('ServiceWorker aktif di folder public'))
+                        .catch(err => console.log('ServiceWorker gagal', err));
+                });
+            }
         </script>
     </body>
 </html>

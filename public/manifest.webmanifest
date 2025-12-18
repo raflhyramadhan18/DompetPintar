@@ -3,13 +3,13 @@
     "name": "Nama Aplikasi Lengkap Anda",
     "icons": [
       {
-        "src": "logo.svg",
+        "src": "logo.png",
         "type": "image/svg+xml",
         "sizes": "any",
         "purpose": "any"
       },
       {
-        "src": "logo.svg",
+        "src": "logo.png",
         "type": "image/svg+xml",
         "sizes": "512x512",
         "purpose": "maskable"
