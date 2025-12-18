@@ -4,31 +4,11 @@
     "functions": {
         "api/index.php": { "runtime": "vercel-php@0.7.1" }
     },
-    "routes": [
-        {
-            "src": "/build/(.*)",
-            "dest": "/public/build/$1"
-        },
-        {
-            "src": "/images/(.*)",
-            "dest": "/public/images/$1"
-        },
-        {
-            "src": "/favicon.ico",
-            "dest": "/public/favicon.ico"
-        },
-        {
-            "src": "/manifest.json",
-            "dest": "/public/manifest.json"
-        },
-        {
-            "src": "/sw.js",
-            "dest": "/public/sw.js"
-        },
-        {
-            "src": "/(.*)",
-            "dest": "/api/index.php"
-        }
+    "routes": [ 
+        { "src": "/build/(.*)", "dest": "/public/build/$1" },
+        { "src": "/sw.js", "dest": "/public/build/sw.js" },
+        { "src": "/manifest.webmanifest", "dest": "/public/build/manifest.webmanifest" },
+        { "src": "/(.*)", "dest": "/api/index.php" }
     ],
     "env": {
         "APP_ENV": "production",
