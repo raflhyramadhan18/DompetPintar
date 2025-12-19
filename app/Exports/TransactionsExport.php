@@ -8,6 +8,7 @@ use Maatwebsite\Excel\Concerns\FromView;
 use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+use Illuminate\Support\Facades\Auth;
 
 class TransactionsExport implements FromView, ShouldAutoSize, WithStyles
 {
@@ -20,7 +21,8 @@ class TransactionsExport implements FromView, ShouldAutoSize, WithStyles
 
     public function view(): View
     {
-        $query = Transaction::query()->with('category');
+        // Filter berdasarkan User yang login agar data tidak tertukar
+        $query = Transaction::where('user_id', Auth::id())->with('category');
 
         // 1. Filter Tanggal
         if (!empty($this->filters['start_date']) && !empty($this->filters['end_date'])) {
@@ -39,23 +41,23 @@ class TransactionsExport implements FromView, ShouldAutoSize, WithStyles
         } elseif ($catFilter === 'expense') {
             $query->whereHas('category', function($q) { $q->where('type', 'expense'); });
         } elseif ($catFilter === 'custom' && !empty($selectedCats)) {
-            // Kalau pilih "Sesuaikan", ambil berdasarkan ID kategori yang dipilih
             $query->whereIn('category_id', $selectedCats);
         }
 
-        $transactions = $query->orderBy('transaction_date')->get();
+        $transactions = $query->orderBy('transaction_date', 'asc')->get();
 
+        // Mengarah ke resources/views/exports/transactions.blade.php
         return view('exports.transactions', [
             'transactions' => $transactions,
             'filters' => $this->filters
         ]);
     }
 
-    // Styling biar tabelnya rapi
     public function styles(Worksheet $sheet)
     {
         return [
-            1 => ['font' => ['bold' => true]], // Baris 1 (Header) Bold
+            // Baris 4 adalah header tabel kita setelah judul laporan
+            4 => ['font' => ['bold' => true]], 
         ];
     }
 }

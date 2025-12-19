@@ -7,11 +7,10 @@
         </tr>
         <tr>
             <td colspan="4" style="text-align: center;">
-                Periode: {{ $filters['start_date'] }} s/d {{ $filters['end_date'] }}
+                Periode: {{ $filters['start_date'] ?? '-' }} s/d {{ $filters['end_date'] ?? '-' }}
             </td>
         </tr>
-        <tr></tr>
-        <tr style="background-color: #eeeeee;">
+        <tr></tr> <tr style="background-color: #eeeeee;">
             <th style="border: 1px solid #000; font-weight: bold;">Tanggal</th>
             <th style="border: 1px solid #000; font-weight: bold;">Kategori</th>
             <th style="border: 1px solid #000; font-weight: bold;">Keterangan</th>
@@ -23,14 +22,17 @@
         @foreach($transactions as $trx)
             <tr>
                 <td style="border: 1px solid #000;">{{ $trx->transaction_date }}</td>
-                <td style="border: 1px solid #000;">{{ $trx->category->name }} ({{ $trx->category->type == 'income' ? 'Masuk' : 'Keluar' }})</td>
+                <td style="border: 1px solid #000;">
+                    {{ $trx->category->name ?? 'N/A' }} 
+                    ({{ ($trx->category->type ?? '') == 'income' ? 'Masuk' : 'Keluar' }})
+                </td>
                 <td style="border: 1px solid #000;">{{ $trx->description }}</td>
                 <td style="border: 1px solid #000; text-align: right;">
-                    {{ $trx->category->type == 'expense' ? '-' : '+' }} 
+                    {{ ($trx->category->type ?? '') == 'expense' ? '-' : '+' }} 
                     {{ number_format($trx->amount, 0, ',', '.') }}
                     
                     @php 
-                        if($trx->category->type == 'income') $totalIncome += $trx->amount;
+                        if(($trx->category->type ?? '') == 'income') $totalIncome += $trx->amount;
                         else $totalExpense += $trx->amount;
                     @endphp
                 </td>
@@ -47,7 +49,7 @@
         </tr>
         <tr>
             <td colspan="3" style="text-align: right; font-weight: bold;">Sisa Saldo:</td>
-            <td style="font-weight: bold;">Rp {{ number_format($totalIncome - $totalExpense, 0, ',', '.') }}</td>
+            <td style="font-weight: bold; background-color: #f3f4f6;">Rp {{ number_format($totalIncome - $totalExpense, 0, ',', '.') }}</td>
         </tr>
     </tbody>
 </table>
