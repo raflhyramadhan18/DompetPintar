@@ -4,7 +4,6 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
-        <title>${APP_NAME}</title>
         <title inertia>{{ config('app.name', 'Dompet Pintar') }}</title>
 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}?v=2">
