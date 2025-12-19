@@ -25,8 +25,15 @@
         "VIEW_COMPILED_PATH": "/tmp",
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
-        "SESSION_DRIVER": "cookie"
-        
+        "SESSION_DRIVER": "cookie",
+        "APP_KEY": "bbase64:rZbLCLYQI30tCw/Kj8OWRVXC7SB8n8S2I4r/vRAva24=", 
+        "DB_CONNECTION": "mysql", 
+        "FILESYSTEM_DISK": "public",
+        "SESSION_DRIVER": "cookie",
+        "CACHE_STORE": "array",
+        "LOG_CHANNEL": "stderr",
+        "VIEW_COMPILED_PATH": "/tmp",
+        "DATA_CACHE_PATH": "/tmp"
     }
     
 }
