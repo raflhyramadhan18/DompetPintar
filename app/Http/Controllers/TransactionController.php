@@ -254,14 +254,17 @@ class TransactionController extends Controller
     //         return Excel::download(new TransactionsExport($filters), $namaFile . '.xlsx');
     //     }
     // }
+    use Maatwebsite\Excel\Concerns\FromCollection;
+
     public function exportProcess(Request $request)
-{
-    // Cek apakah database bisa diakses
-    $count = \App\Models\Transaction::count();
+    {
+        // Hapus dulu pengecekan DB agar kita tahu apakah Excel-nya bisa jalan
+        // $count = \App\Models\Transaction::count(); 
     
-    // Tes ekspor file Excel kosong dulu
-    return Excel::download(new class {
-        public function collection() { return collect([]); }
-    }, 'test.xlsx');
-}
+        return Excel::download(new class implements FromCollection {
+            public function collection() {
+                return collect([['Tes', 'Berhasil']]);
+            }
+        }, 'test.xlsx');
+    }
 }
