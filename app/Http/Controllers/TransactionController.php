@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\TransactionsExport;
+use Maatwebsite\Excel\Concerns\FromCollection;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -254,17 +255,16 @@ class TransactionController extends Controller
     //         return Excel::download(new TransactionsExport($filters), $namaFile . '.xlsx');
     //     }
     // }
-    use Maatwebsite\Excel\Concerns\FromCollection;
-
     public function exportProcess(Request $request)
-    {
-        // Hapus dulu pengecekan DB agar kita tahu apakah Excel-nya bisa jalan
-        // $count = \App\Models\Transaction::count(); 
-    
-        return Excel::download(new class implements FromCollection {
-            public function collection() {
-                return collect([['Tes', 'Berhasil']]);
-            }
-        }, 'test.xlsx');
-    }
+{
+    // Tes ekspor sederhana untuk memastikan Vercel bisa menulis file
+    return Excel::download(new class implements FromCollection {
+        public function collection() {
+            return collect([
+                ['Status', 'Pesan'],
+                ['Berhasil', 'Sistem ekspor sudah berjalan!']
+            ]);
+        }
+    }, 'test_ekspor.xlsx');
+}
 }
