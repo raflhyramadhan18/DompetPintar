@@ -113,7 +113,7 @@ export default function Stats({ auth, chartData, categoryData, summaryTotal, fil
         responsive: true,
         maintainAspectRatio: false,
         plugins: {
-            legend: { position: 'top', align: 'end', labels: { usePointStyle: true, boxWidth: 8, font: { weight: 'bold' }, color: '#94a3b8' } }, // Color update
+            legend: { position: 'top', align: 'end', labels: { usePointStyle: true, boxWidth: 8, font: { weight: 'bold' }, color: '#94a3b8' } },
             tooltip: { 
                 backgroundColor: '#1e293b', 
                 padding: 12, 
@@ -131,7 +131,7 @@ export default function Stats({ auth, chartData, categoryData, summaryTotal, fil
         scales: {
             y: { 
                 beginAtZero: true, 
-                grid: { color: '#334155', borderDash: [5, 5] }, // Darker grid
+                grid: { color: '#334155', borderDash: [5, 5] },
                 ticks: { 
                     color: '#94a3b8',
                     font: { size: 11 },
@@ -280,6 +280,7 @@ export default function Stats({ auth, chartData, categoryData, summaryTotal, fil
                     {/* CHARTS GRID */}
                     <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
                         
+                        {/* Kiri: Bar Chart */}
                         <div className="lg:col-span-2 bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col">
                             <div className="mb-6">
                                 <h3 className="text-lg font-bold text-slate-800 dark:text-white">Trend Keuangan</h3>
@@ -290,6 +291,7 @@ export default function Stats({ auth, chartData, categoryData, summaryTotal, fil
                             </div>
                         </div>
 
+                        {/* Kanan: Doughnut Chart & Dynamic List */}
                         <div className="bg-white dark:bg-slate-800 p-8 rounded-3xl shadow-sm border border-slate-100 dark:border-slate-700 flex flex-col h-full">
                             <div className="mb-6 border-b border-slate-50 dark:border-slate-700 pb-4">
                                 <h3 className="text-lg font-bold text-slate-800 dark:text-white">{chartTitle}</h3>
@@ -316,24 +318,43 @@ export default function Stats({ auth, chartData, categoryData, summaryTotal, fil
                                 )}
                             </div>
 
-                            {viewType === 'summary' && (
-                                <div className="mt-6 space-y-3">
-                                    <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-white dark:from-green-900/20 dark:to-slate-800 rounded-2xl border border-green-100 dark:border-green-900/30">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-3 h-3 rounded-full bg-green-500 shadow-sm shadow-green-200 dark:shadow-green-900"></div>
-                                            <span className="text-xs font-extrabold text-green-700 dark:text-green-400 uppercase tracking-wider">Pemasukan</span>
+                            {/* List Kategori yang Dinamis (Berdasarkan viewType) */}
+                            <div className="mt-6 space-y-3 max-h-[300px] overflow-y-auto pr-2 scrollbar-hide">
+                                {viewType === 'summary' ? (
+                                    <>
+                                        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-green-50 to-white dark:from-green-900/20 dark:to-slate-800 rounded-2xl border border-green-100 dark:border-green-900/30">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-3 h-3 rounded-full bg-green-500 shadow-sm shadow-green-200 dark:shadow-green-900"></div>
+                                                <span className="text-xs font-extrabold text-green-700 dark:text-green-400 uppercase tracking-wider">Pemasukan</span>
+                                            </div>
+                                            <span className="text-base font-bold text-slate-700 dark:text-white">{formatRupiah(summaryTotal.income)}</span>
                                         </div>
-                                        <span className="text-base font-bold text-slate-700 dark:text-white">{formatRupiah(summaryTotal.income)}</span>
-                                    </div>
-                                    <div className="flex justify-between items-center p-4 bg-gradient-to-r from-red-50 to-white dark:from-red-900/20 dark:to-slate-800 rounded-2xl border border-red-100 dark:border-red-900/30">
-                                        <div className="flex items-center gap-3">
-                                            <div className="w-3 h-3 rounded-full bg-red-500 shadow-sm shadow-red-200 dark:shadow-red-900"></div>
-                                            <span className="text-xs font-extrabold text-red-700 dark:text-red-400 uppercase tracking-wider">Pengeluaran</span>
+                                        <div className="flex justify-between items-center p-4 bg-gradient-to-r from-red-50 to-white dark:from-red-900/20 dark:to-slate-800 rounded-2xl border border-red-100 dark:border-red-900/30">
+                                            <div className="flex items-center gap-3">
+                                                <div className="w-3 h-3 rounded-full bg-red-500 shadow-sm shadow-red-200 dark:shadow-red-900"></div>
+                                                <span className="text-xs font-extrabold text-red-700 dark:text-red-400 uppercase tracking-wider">Pengeluaran</span>
+                                            </div>
+                                            <span className="text-base font-bold text-slate-700 dark:text-white">{formatRupiah(summaryTotal.expense)}</span>
                                         </div>
-                                        <span className="text-base font-bold text-slate-700 dark:text-white">{formatRupiah(summaryTotal.expense)}</span>
-                                    </div>
-                                </div>
-                            )}
+                                    </>
+                                ) : (
+                                    /* Mapping detail kategori (Makan, Gaji, dll) */
+                                    (viewType === 'income' ? categoryData.income : categoryData.expense).labels.map((label, index) => (
+                                        <div key={index} className="flex justify-between items-center p-3 bg-slate-50 dark:bg-slate-700/30 rounded-xl border border-slate-100 dark:border-slate-700">
+                                            <div className="flex items-center gap-3">
+                                                <div 
+                                                    className="w-3 h-3 rounded-full" 
+                                                    style={{ backgroundColor: (viewType === 'income' ? paletteGreen : paletteRed)[index % 5] }}
+                                                ></div>
+                                                <span className="text-sm font-medium text-slate-600 dark:text-slate-300">{label}</span>
+                                            </div>
+                                            <span className="text-sm font-bold text-slate-700 dark:text-white">
+                                                {formatRupiah((viewType === 'income' ? categoryData.income : categoryData.expense).data[index])}
+                                            </span>
+                                        </div>
+                                    ))
+                                )}
+                            </div>
                         </div>
 
                     </div>
