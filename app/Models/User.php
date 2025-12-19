@@ -49,7 +49,6 @@ class User extends Authenticatable
     // --- TAMBAHKAN INI (RELASI KE TRANSAKSI) ---
     public function transactions()
     {
-        // Artinya: Satu User punya banyak Transaksi
-        return $this->hasMany(Transaction::class);
+        return $this->hasMany(\App\Models\Transaction::class);
     }
 }
