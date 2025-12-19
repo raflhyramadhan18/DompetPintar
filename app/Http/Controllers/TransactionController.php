@@ -237,21 +237,31 @@ class TransactionController extends Controller
         ]);
     }
 
+    // public function exportProcess(Request $request)
+    // {
+    //     $request->validate([
+    //         'start_date' => 'required|date',
+    //         'end_date' => 'required|date',
+    //         'format' => 'required|in:xlsx,pdf',
+    //     ]);
+
+    //     $filters = $request->all();
+    //     $namaFile = 'Laporan_Keuangan_' . date('Ymd_His');
+
+    //     if ($request->input('format') === 'pdf') {
+    //         return Excel::download(new TransactionsExport($filters), $namaFile . '.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
+    //     } else {
+    //         return Excel::download(new TransactionsExport($filters), $namaFile . '.xlsx');
+    //     }
+    // }
     public function exportProcess(Request $request)
-    {
-        $request->validate([
-            'start_date' => 'required|date',
-            'end_date' => 'required|date',
-            'format' => 'required|in:xlsx,pdf',
-        ]);
-
-        $filters = $request->all();
-        $namaFile = 'Laporan_Keuangan_' . date('Ymd_His');
-
-        if ($request->input('format') === 'pdf') {
-            return Excel::download(new TransactionsExport($filters), $namaFile . '.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
-        } else {
-            return Excel::download(new TransactionsExport($filters), $namaFile . '.xlsx');
-        }
-    }
+{
+    // Cek apakah database bisa diakses
+    $count = \App\Models\Transaction::count();
+    
+    // Tes ekspor file Excel kosong dulu
+    return Excel::download(new class {
+        public function collection() { return collect([]); }
+    }, 'test.xlsx');
+}
 }
