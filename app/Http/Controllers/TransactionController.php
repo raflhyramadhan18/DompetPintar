@@ -257,14 +257,14 @@ class TransactionController extends Controller
     // }
     public function exportProcess(Request $request)
 {
-    // Tes ekspor sederhana untuk memastikan Vercel bisa menulis file
+    // Kita tes pakai CSV, ini tidak butuh ekstensi ZIP
     return Excel::download(new class implements FromCollection {
         public function collection() {
             return collect([
                 ['Status', 'Pesan'],
-                ['Berhasil', 'Sistem ekspor sudah berjalan!']
+                ['Berhasil', 'Format CSV sukses di Vercel!']
             ]);
         }
-    }, 'test_ekspor.xlsx');
+    }, 'test.csv', \Maatwebsite\Excel\Excel::CSV);
 }
 }
