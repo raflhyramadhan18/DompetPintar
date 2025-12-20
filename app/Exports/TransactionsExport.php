@@ -9,6 +9,8 @@ use Maatwebsite\Excel\Concerns\ShouldAutoSize;
 use Maatwebsite\Excel\Concerns\WithStyles;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
+
 
 class TransactionsExport implements FromView, ShouldAutoSize, WithStyles
 {
@@ -59,5 +61,28 @@ class TransactionsExport implements FromView, ShouldAutoSize, WithStyles
             // Baris 4 adalah header tabel kita setelah judul laporan
             4 => ['font' => ['bold' => true]], 
         ];
+    }
+    public function data(Request $request)
+    {
+        $request->validate([
+            'start_date' => 'required|date',
+            'end_date'   => 'required|date',
+        ]);
+
+        $transactions = Transaction::with('category')
+            ->whereBetween('transaction_date', [
+                $request->start_date,
+                $request->end_date
+            ])
+            ->orderBy('transaction_date')
+            ->get();
+
+        return response()->json([
+            'transactions' => $transactions,
+            'meta' => [
+                'start_date' => $request->start_date,
+                'end_date'   => $request->end_date,
+            ]
+        ]);
     }
 }

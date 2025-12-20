@@ -34,7 +34,7 @@ const handleExport = async () => {
         };
 
         // ⬇️ backend HANYA kirim data JSON
-        const { data } = await axios.get(route("export.process"), { params });
+        const { data } = await axios.get(route("export.data"), { params });
 
         if (format === "pdf") {
             exportPdf(data.transactions, data.meta);

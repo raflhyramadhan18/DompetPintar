@@ -44,6 +44,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/export/process', [TransactionController::class, 'exportProcess'])->name('export.process');
 });
 
+Route::get('/export/data', [TransactionController::class, 'data'])->name('export.data');
+
+
 require __DIR__.'/auth.php';
 
 // ==========================================
