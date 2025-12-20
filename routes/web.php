@@ -6,7 +6,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB; // <-- Tambahan untuk debug
-
+use App\Http\Controllers\ExportController
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -42,9 +42,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/stats', [TransactionController::class, 'stats'])->name('stats');
     Route::get('/export', [TransactionController::class, 'exportForm'])->name('export');
     Route::get('/export/process', [TransactionController::class, 'exportProcess'])->name('export.process');
+    Route::get('/export/data', [ExportController::class, 'data'])
+        ->name('export.data');
 });
 
-Route::get('/export/data', [TransactionController::class, 'data'])->name('export.data');
+
 
 
 require __DIR__.'/auth.php';
