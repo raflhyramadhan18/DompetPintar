@@ -1,6 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
 import { useState } from 'react';
+import axios from "axios";
+import { exportPdf } from "@/Utils/exportPdf";
+import { exportExcel } from "@/Utils/exportExcel";
 
 export default function Export({ auth, categories }) {
     const [startDate, setStartDate] = useState(new Date().toISOString().split('T')[0]);
@@ -18,22 +21,35 @@ export default function Export({ auth, categories }) {
         }
     };
 
-    const handleExport = () => {
-        setIsProcessing(true);
-        const query = new URLSearchParams({
+
+const handleExport = async () => {
+    setIsProcessing(true);
+
+    try {
+        const params = {
             start_date: startDate,
             end_date: endDate,
             category_mode: catMode,
-            format: format,
-        });
+            categories: selectedCats,
+        };
 
-        selectedCats.forEach(id => query.append('categories[]', id));
+        // ⬇️ backend HANYA kirim data JSON
+        const { data } = await axios.get(route("export.data"), { params });
 
-        const url = `${route('export.process')}?${query.toString()}`;
-        window.location.href = url;
+        if (format === "pdf") {
+            exportPdf(data.transactions, data.meta);
+        } else {
+            exportExcel(data.transactions, data.meta);
+        }
 
-        setTimeout(() => setIsProcessing(false), 2000);
-    };
+    } catch (e) {
+        alert("Gagal export data");
+        console.error(e);
+    } finally {
+        setIsProcessing(false);
+    }
+};
+
 
     const FormatCard = ({ type, active, onClick }) => {
         const isPdf = type === 'pdf';

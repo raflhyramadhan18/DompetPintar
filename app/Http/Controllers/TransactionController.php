@@ -238,33 +238,41 @@ class TransactionController extends Controller
         ]);
     }
 
-    // public function exportProcess(Request $request)
-    // {
-    //     $request->validate([
-    //         'start_date' => 'required|date',
-    //         'end_date' => 'required|date',
-    //         'format' => 'required|in:xlsx,pdf',
-    //     ]);
-
-    //     $filters = $request->all();
-    //     $namaFile = 'Laporan_Keuangan_' . date('Ymd_His');
-
-    //     if ($request->input('format') === 'pdf') {
-    //         return Excel::download(new TransactionsExport($filters), $namaFile . '.pdf', \Maatwebsite\Excel\Excel::DOMPDF);
-    //     } else {
-    //         return Excel::download(new TransactionsExport($filters), $namaFile . '.xlsx');
-    //     }
-    // }
     public function exportProcess(Request $request)
 {
-    // Kita tes pakai CSV, ini tidak butuh ekstensi ZIP
-    return Excel::download(new class implements FromCollection {
-        public function collection() {
-            return collect([
-                ['Status', 'Pesan'],
-                ['Berhasil', 'Format CSV sukses di Vercel!']
-            ]);
-        }
-    }, 'test.csv', \Maatwebsite\Excel\Excel::CSV);
+    $request->validate([
+        'start_date' => 'required|date',
+        'end_date'   => 'required|date',
+        'format'     => 'required|in:xlsx,pdf',
+    ]);
+
+    $data = Transaction::where('user_id', Auth::id())
+        ->whereBetween('transaction_date', [
+            $request->start_date,
+            $request->end_date
+        ])
+        ->with('category')
+        ->orderBy('transaction_date')
+        ->get()
+        ->map(function ($trx) {
+            return [
+                'Tanggal'    => $trx->transaction_date,
+                'Kategori'   => $trx->category->name,
+                'Tipe'       => $trx->category->type,
+                'Deskripsi'  => $trx->description,
+                'Jumlah'     => $trx->amount,
+            ];
+        });
+
+    return response()->json([
+        'format' => $request->input('format'),
+        'data'   => $data,
+        'meta'   => [
+            'start_date' => $request->start_date,
+            'end_date'   => $request->end_date,
+        ]
+    ]);
 }
+
+
 }
