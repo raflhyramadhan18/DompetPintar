@@ -4,16 +4,16 @@ export function exportExcel(transactions, meta) {
     let totalIncome = 0;
     let totalExpense = 0;
 
-    // Judul & Header
     const sheetData = [
         ["LAPORAN KEUANGAN DOMPET PINTAR"],
         [`Periode: ${meta.start_date} s/d ${meta.end_date}`],
         [],
-        ["TANGGAL", "KATEGORI", "KETERANGAN", "NOMINAL"]
+        ["Tanggal", "Kategori", "Keterangan", "Nominal"]
     ];
 
     transactions.forEach(trx => {
-        const amount = Number(trx.amount) || 0;
+        // PASTIKAN jadi angka dengan Number() atau parseFloat()
+        const amount = Number(trx.amount) || 0; 
         const isIncome = trx.category?.type === "income";
 
         if (isIncome) totalIncome += amount;
@@ -23,33 +23,34 @@ export function exportExcel(transactions, meta) {
             trx.transaction_date,
             `${trx.category?.name ?? "N/A"} (${isIncome ? "Masuk" : "Keluar"})`,
             trx.description ?? "-",
-            isIncome ? amount : -amount // Biarkan sebagai angka murni
+            isIncome ? amount : -amount // Gunakan angka asli (negatif jika pengeluaran)
         ]);
     });
 
-    // Baris Total
-    sheetData.push([], []);
-    sheetData.push(["", "", "TOTAL PEMASUKAN", totalIncome]);
-    sheetData.push(["", "", "TOTAL PENGELUARAN", totalExpense]);
-    sheetData.push(["", "", "SISA SALDO", totalIncome - totalExpense]);
+    sheetData.push([]);
+    sheetData.push(["", "", "Total Pemasukan", totalIncome]);
+    sheetData.push(["", "", "Total Pengeluaran", totalExpense]);
+    sheetData.push(["", "", "Sisa Saldo", totalIncome - totalExpense]);
 
     const worksheet = XLSX.utils.aoa_to_sheet(sheetData);
 
-    // ===== STYLING TINGKAT LANJUT (Format Angka) =====
+    // Formating kolom Nominal agar muncul format ribuan di Excel
     const range = XLSX.utils.decode_range(worksheet['!ref']);
     for (let i = 4; i <= range.e.r; i++) {
-        const cellAddress = XLSX.utils.encode_cell({ r: i, c: 3 });
-        if (!worksheet[cellAddress]) continue;
-
-        // Berikan format Accounting Rupiah
-        worksheet[cellAddress].t = 'n'; // Type: Number
-        worksheet[cellAddress].z = '"Rp "#,##0'; // Format: Rp 100.000
+        const cell = worksheet[XLSX.utils.encode_cell({r: i, c: 3})];
+        if (cell && typeof cell.v === 'number') {
+            cell.z = '#,##0'; // Format angka ribuan Excel
+        }
     }
 
-    // Lebar Kolom Otomatis
-    worksheet["!cols"] = [{ wch: 15 }, { wch: 25 }, { wch: 35 }, { wch: 20 }];
+    // Merge & Cols config
+    worksheet["!merges"] = [
+        { s: { r: 0, c: 0 }, e: { r: 0, c: 3 } },
+        { s: { r: 1, c: 0 }, e: { r: 1, c: 3 } }
+    ];
+    worksheet["!cols"] = [{ wch: 15 }, { wch: 25 }, { wch: 30 }, { wch: 15 }];
 
     const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan Keuangan");
-    XLSX.writeFile(workbook, `Laporan_${meta.start_date}.xlsx`);
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Laporan");
+    XLSX.writeFile(workbook, "Laporan_Keuangan.xlsx");
 }
