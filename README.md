@@ -1,121 +1,50 @@
-DompetPintar - Sistem Manajemen Keuangan Pribadi
-DompetPintar adalah aplikasi berbasis web yang dirancang untuk membantu pengguna mengelola keuangan pribadi dengan lebih cerdas. Aplikasi ini memungkinkan pencatatan pemasukan, pengeluaran, serta pembuatan laporan keuangan dalam format PDF secara otomatis.
+# 📂 DompetPintar - Sistem Manajemen Keuangan Pribadi
 
-1. Fitur Utama
-Dashboard Interaktif: Ringkasan saldo, pemasukan, dan pengeluaran dalam satu tampilan.
+<p align="center">
+  <img src="https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white" alt="Laravel">
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" alt="React">
+  <img src="https://img.shields.io/badge/Inertia.js-9553E9?style=for-the-badge&logo=inertia&logoColor=white" alt="Inertia">
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" alt="Tailwind">
+</p>
 
-Manajemen Transaksi: Tambah, edit, dan hapus data pemasukan serta pengeluaran dengan mudah.
+**DompetPintar** adalah aplikasi manajemen keuangan berbasis web yang dirancang untuk membantu pengguna mengelola arus kas pribadi secara cerdas. Catat pemasukan, pantau pengeluaran, dan hasilkan laporan profesional dalam sekejap.
 
-Kategori Kustom: Kelola kategori transaksi untuk pelacakan yang lebih detail.
+---
 
-Laporan PDF: Cetak laporan keuangan periode tertentu menggunakan library DomPDF.
+## ✨ Fitur Utama
 
-Antarmuka Modern: UI responsif dan cepat berkat perpaduan Inertia.js dan Tailwind CSS.
+* **📊 Dashboard Interaktif**: Visualisasi ringkasan saldo, total pemasukan, dan pengeluaran secara real-time.
+* **💸 Manajemen Transaksi**: Sistem CRUD lengkap untuk mencatat setiap aktivitas keuangan.
+* **📂 Kategori Kustom**: Kategorikan transaksi Anda (makanan, transportasi, hobi, dll) untuk analisis yang lebih baik.
+* **📄 Laporan PDF**: Ekspor laporan keuangan periode tertentu ke format PDF menggunakan **DomPDF**.
+* **⚡ UI Modern & Responsif**: Pengalaman pengguna yang mulus (Single Page Application) dengan **Inertia.js** dan desain estetik dari **Tailwind CSS**.
+* **🔐 Autentikasi Aman**: Perlindungan data pribadi dengan sistem Login dan Registrasi yang terenkripsi.
 
-Sistem Autentikasi: Keamanan data pengguna terjamin dengan sistem login dan registrasi.
+---
 
-2. Teknologi yang Digunakan
-Backend & Framework
-Laravel: Framework PHP utama untuk logika bisnis dan API.
+## 🛠️ Teknologi & Library
 
-Inertia.js: Menghubungkan Laravel dengan frontend modern tanpa membangun API REST yang rumit (Classic SPA).
+### Stack Utama
+| Teknologi | Kegunaan |
+| :--- | :--- |
+| **Laravel** | Backend Framework & RESTful Service |
+| **React.js** | Library Frontend untuk Antarmuka Reaktif |
+| **Inertia.js** | Jembatan (Bridge) antara Laravel & React |
+| **MySQL** | Database Relasional untuk Penyimpanan Data |
 
-Frontend
-React.js: Framework JavaScript untuk UI yang reaktif.
+### Library Tambahan
+* **DomPDF**: Library untuk konversi HTML ke PDF secara otomatis.
+* **Ziggy**: Integrasi rute Laravel di sisi client (JavaScript).
+* **Lucide Icons**: Koleksi ikon minimalis untuk mempercantik UI.
+* **Tailwind Merge**: Optimasi class CSS pada komponen React.
 
-Tailwind CSS: Untuk styling yang modern dan responsif.
+---
 
-Library Utama (Dependencies)
-DomPDF: Digunakan untuk generate dokumen PDF dari tampilan HTML/CSS.
+## 🚀 Panduan Instalasi
 
-Ziggy: Memudahkan penggunaan route Laravel di dalam file JavaScript/Vue.
+Pastikan Anda sudah menginstal **PHP >= 8.1**, **Composer**, dan **Node.js** di perangkat Anda.
 
-Lucide Icons: Library icon untuk mempercantik UI.
-
-3. Panduan Instalasi
-Ikuti langkah-langkah di bawah ini untuk menjalankan proyek ini di komputer lokal Anda:
-
-1. Clone Repositori
-Bash
-
-git clone https://github.com/raflhyramadhan18/DompetPintar.git
+### 1. Persiapan Repositori
+```bash
+git clone [https://github.com/raflhyramadhan18/DompetPintar.git](https://github.com/raflhyramadhan18/DompetPintar.git)
 cd DompetPintar
-2. Instalasi Dependency (PHP)
-Pastikan Anda sudah menginstal Composer.
-
-Bash
-
-composer install
-3. Instalasi Dependency (JavaScript)
-Pastikan Anda sudah menginstal Node.js dan NPM.
-
-Bash
-
-npm install
-4. Konfigurasi Environment
-Salin file .env.example menjadi .env dan sesuaikan pengaturan database Anda.
-
-Bash
-
-cp .env.example .env
-Lalu buat application key:
-
-Bash
-
-php artisan key:generate
-5. Migrasi & Seeder Database
-Buat database baru di MySQL (misal: db_dompet_pintar), lalu jalankan:
-
-Bash
-
-php artisan migrate --seed
-6. Menjalankan Server
-Jalankan server Laravel dan proses compile frontend di dua terminal berbeda:
-
-Terminal 1 (Laravel Server):
-
-Bash
-
-php artisan serve
-Terminal 2 (Vite HMR):
-
-Bash
-
-npm run dev
-Aplikasi sekarang dapat diakses di http://127.0.0.1:8000.
-
- Dokumentasi Library Penting
- DomPDF (Generate Laporan)
-Untuk mengubah data transaksi menjadi laporan PDF, fungsi ini biasanya diletakkan di Controller. Contoh penggunaan:
-
-PHP
-
-use Barryvdh\DomPDF\Facade\Pdf;
-
-public function exportPdf() {
-    $data = Transaction::all();
-    $pdf = Pdf::loadView('pdf.report', compact('data'));
-    return $pdf->download('laporan-keuangan.pdf');
-}
-🔄 Inertia.js (Data Flow)
-Data dari Controller dikirim langsung ke component Vue/React tanpa perlu fetch manual:
-
-PHP
-
-return Inertia::render('Dashboard', [
-    'transactions' => Transaction::latest()->get()
-]);
-
-Kontribusi
-Kontribusi selalu terbuka! Jika Anda ingin meningkatkan proyek ini:
-
-Fork repositori ini.
-
-Buat branch fitur baru (git checkout -b fitur/HebatBaru).
-
-Commit perubahan Anda (git commit -m 'Menambah fitur hebat').
-
-Push ke branch (git push origin fitur/HebatBaru).
-
-Buat Pull Request.
-
