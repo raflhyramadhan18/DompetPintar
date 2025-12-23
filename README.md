@@ -74,6 +74,7 @@ php artisan migrate --seed
 
 5. Menjalankan Aplikasi
 Buka dua terminal dan jalankan perintah berikut secara bersamaan:
+
 Terminal 1 (Backend):
 ```Bash
 php artisan serve
@@ -85,7 +86,9 @@ npm run dev
 Akses aplikasi melalui browser di: http://localhost:8000
 
 **Dokumentasi Teknis**
+
  Struktur Web Service (Backend)
+ 
 Logika utama aplikasi ini berada di dalam folder berikut:
 
 app/Http/Controllers/: Menangani permintaan (request) dan logika bisnis utama.
