@@ -48,3 +48,91 @@ Pastikan Anda sudah menginstal **PHP >= 8.1**, **Composer**, dan **Node.js** di 
 ```bash
 git clone [https://github.com/raflhyramadhan18/DompetPintar.git](https://github.com/raflhyramadhan18/DompetPintar.git)
 cd DompetPintar
+
+2. Instalasi Dependency
+Instal library PHP (Laravel) dan paket JavaScript (React):
+
+Bash
+
+composer install
+npm install
+3. Konfigurasi Lingkungan
+Salin file .env dan atur koneksi database Anda:
+
+Bash
+
+cp .env.example .env
+php artisan key:generate
+4. Database & Migrasi
+Buat database baru di MySQL, sesuaikan konfigurasinya di .env, lalu jalankan:
+
+Bash
+
+php artisan migrate --seed
+5. Menjalankan Aplikasi
+Buka dua terminal dan jalankan perintah berikut secara bersamaan:
+
+Terminal 1 (Backend):
+
+Bash
+
+php artisan serve
+Terminal 2 (Frontend):
+
+Bash
+
+npm run dev
+Akses aplikasi melalui browser di: http://localhost:8000
+
+📖 Dokumentasi Teknis
+📂 Struktur Web Service (Backend)
+Logika utama aplikasi ini berada di dalam folder berikut:
+
+app/Http/Controllers/: Menangani permintaan (request) dan logika bisnis utama.
+
+routes/web.php: Definisi endpoint dan penghubung ke komponen React via Inertia.
+
+app/Models/: Definisi struktur data, tabel, dan relasi database.
+
+📄 Implementasi DomPDF
+Proses cetak laporan dilakukan di Controller dengan memanggil library PDF:
+
+PHP
+
+use Barryvdh\DomPDF\Facade\Pdf;
+
+public function downloadReport() 
+{
+    $data = Transaction::where('user_id', auth()->id())->get();
+    $pdf = Pdf::loadView('pdf.laporan', compact('data'));
+    
+    return $pdf->download('DompetPintar-Laporan.pdf');
+}
+🔄 Aliran Data (Inertia.js)
+Data dikirim langsung dari Controller ke UI React tanpa perlu membuat API Fetching manual:
+
+PHP
+
+return Inertia::render('Transactions/Index', [
+    'items' => Transaction::latest()->get(),
+]);
+🤝 Kontribusi
+Ingin membantu mengembangkan DompetPintar?
+
+Fork proyek ini.
+
+Buat branch fitur baru (git checkout -b fitur/FiturKeren).
+
+Commit perubahan Anda (git commit -m 'Menambah fitur keren').
+
+Push ke branch (git push origin fitur/FiturKeren).
+
+Buka Pull Request.
+
+📜 Lisensi
+Proyek ini dilindungi di bawah lisensi MIT. Lihat file LICENSE untuk informasi lebih lanjut.
+
+👤 Author
+Rafli Ramadhan
+
+GitHub: @raflhyramadhan18
