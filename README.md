@@ -15,12 +15,22 @@
 
 * **Dashboard Interaktif**: Visualisasi ringkasan saldo, total pemasukan, dan pengeluaran secara real-time.
 * **Manajemen Transaksi**: Sistem CRUD lengkap untuk mencatat setiap aktivitas keuangan.
+* **Support PWA (Progressive Web App)**: Aplikasi dapat diinstal di Android, iOS, atau Desktop dan diakses seperti aplikasi native.
 * **Kategori Kustom**: Kategorikan transaksi Anda (makanan, transportasi, hobi, dll) untuk analisis yang lebih baik.
 * **Laporan PDF**: Ekspor laporan keuangan periode tertentu ke format PDF menggunakan **DomPDF**.
 * **UI Modern & Responsif**: Pengalaman pengguna yang mulus (Single Page Application) dengan **Inertia.js** dan desain estetik dari **Tailwind CSS**.
 * **Autentikasi Aman**: Perlindungan data pribadi dengan sistem Login dan Registrasi yang terenkripsi.
 
 ---
+
+
+## Fitur PWA (Progressive Web App)
+
+Aplikasi ini telah mendukung teknologi PWA yang memungkinkan:
+1. **Installable**: Muncul prompt "Add to Home Screen" di browser mobile dan desktop.
+2. **App-like Experience**: Navigasi tanpa bar URL browser, memberikan tampilan penuh seperti aplikasi mobile.
+3. **Offline Caching**: Beberapa aset statis disimpan di cache untuk pemuatan aplikasi yang lebih cepat.
+4. **Standalone Mode**: Berjalan di jendela terpisah dari browser utama.
 
 ##  Teknologi & Library
 
