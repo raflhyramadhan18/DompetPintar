@@ -13,12 +13,12 @@
 
 ##  Fitur Utama
 
-* ** Dashboard Interaktif**: Visualisasi ringkasan saldo, total pemasukan, dan pengeluaran secara real-time.
-* ** Manajemen Transaksi**: Sistem CRUD lengkap untuk mencatat setiap aktivitas keuangan.
-* ** Kategori Kustom**: Kategorikan transaksi Anda (makanan, transportasi, hobi, dll) untuk analisis yang lebih baik.
-* ** Laporan PDF**: Ekspor laporan keuangan periode tertentu ke format PDF menggunakan **DomPDF**.
-* ** UI Modern & Responsif**: Pengalaman pengguna yang mulus (Single Page Application) dengan **Inertia.js** dan desain estetik dari **Tailwind CSS**.
-* ** Autentikasi Aman**: Perlindungan data pribadi dengan sistem Login dan Registrasi yang terenkripsi.
+* **Dashboard Interaktif**: Visualisasi ringkasan saldo, total pemasukan, dan pengeluaran secara real-time.
+* **Manajemen Transaksi**: Sistem CRUD lengkap untuk mencatat setiap aktivitas keuangan.
+* **Kategori Kustom**: Kategorikan transaksi Anda (makanan, transportasi, hobi, dll) untuk analisis yang lebih baik.
+* **Laporan PDF**: Ekspor laporan keuangan periode tertentu ke format PDF menggunakan **DomPDF**.
+* **UI Modern & Responsif**: Pengalaman pengguna yang mulus (Single Page Application) dengan **Inertia.js** dan desain estetik dari **Tailwind CSS**.
+* **Autentikasi Aman**: Perlindungan data pribadi dengan sistem Login dan Registrasi yang terenkripsi.
 
 ---
 
@@ -84,11 +84,14 @@ npm run dev
 ```
 Akses aplikasi melalui browser di: http://localhost:8000
 
- Dokumentasi Teknis
+**Dokumentasi Teknis**
  Struktur Web Service (Backend)
 Logika utama aplikasi ini berada di dalam folder berikut:
+
 app/Http/Controllers/: Menangani permintaan (request) dan logika bisnis utama.
+
 routes/web.php: Definisi endpoint dan penghubung ke komponen React via Inertia.
+
 app/Models/: Definisi struktur data, tabel, dan relasi database.
 
 Implementasi DomPDF
@@ -115,9 +118,13 @@ return Inertia::render('Transactions/Index', [
 Kontribusi
 Ingin membantu mengembangkan DompetPintar?
 Fork proyek ini.
+
 Buat branch fitur baru (git checkout -b fitur/FiturKeren).
+
 Commit perubahan Anda (git commit -m 'Menambah fitur keren').
+
 Push ke branch (git push origin fitur/FiturKeren).
+
 Buka Pull Request.
 
 👤 Author
