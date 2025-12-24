@@ -43,7 +43,8 @@ Aplikasi ini telah mendukung teknologi PWA yang memungkinkan:
 | **MySQL** | Database Relasional untuk Penyimpanan Data |
 
 ### Library Tambahan
-* **DomPDF**: Library untuk konversi HTML ke PDF secara otomatis.
+* **jspdf**: Library untuk konversi HTML ke PDF secara otomatis.
+* **xlsx**: Library untuk generate excel secara otomatis.
 * **Ziggy**: Integrasi rute Laravel di sisi client (JavaScript).
 * **Lucide Icons**: Koleksi ikon minimalis untuk mempercantik UI.
 * **Tailwind Merge**: Optimasi class CSS pada komponen React.
