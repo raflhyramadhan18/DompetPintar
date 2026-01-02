@@ -129,17 +129,6 @@ return Inertia::render('Transactions/Index', [
     'items' => Transaction::latest()->get(),
 ]);
 ```
-Kontribusi
-Ingin membantu mengembangkan DompetPintar?
-Fork proyek ini.
-
-Buat branch fitur baru (git checkout -b fitur/FiturKeren).
-
-Commit perubahan Anda (git commit -m 'Menambah fitur keren').
-
-Push ke branch (git push origin fitur/FiturKeren).
-
-Buka Pull Request.
 
 👤 Author
 
